@@ -1,7 +1,8 @@
-package net.metrosystems.competition.studentsmgmt.service.util;
+package net.metrosystems.competition.studentsmgmt.util;
 
 import java.io.File;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -10,9 +11,6 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 import net.metrosystems.competition.studentsmgmt.dto.Student;
 
-/**
- * Reads Student objects from a CSV file
- */
 public class StudentUtil {
 
 	public  List<Student> readData(String fileName) throws Exception {
@@ -33,5 +31,5 @@ public class StudentUtil {
 			File file = new File(classLoader.getResource(fileName).getFile());
 
 		  writer.writeValues(file).writeAll(students);
-	}	
+	}
 }

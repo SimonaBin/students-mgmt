@@ -2,7 +2,12 @@ package net.metrosystems.competition.studentsmgmt.dto;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 @JsonPropertyOrder({ "id", "firstName", "lastName", "dateOfBirth", "spec", "avg" })
 public class Student {
@@ -10,7 +15,10 @@ public class Student {
 	private int id;
 	private String firstName;
 	private String lastName;
-	private String dateOfBirth;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@JsonDeserialize(using= LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)  
+	private LocalDate dateOfBirth;
 	private String spec;
 	private double avg;
 	
@@ -32,10 +40,10 @@ public class Student {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getDateOfBirth() {
+	public LocalDate getDateOfBirth() {
 		return dateOfBirth;
 	}
-	public void setDateOfBirth(String dateOfBirth) {
+	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 	public String getSpec() {
@@ -51,7 +59,7 @@ public class Student {
 		this.avg = avg;
 	}
 	
-	public Student(int id, String firstName, String lastName, String dateOfBirth, String spec, double avg) {
+	public Student(int id, String firstName, String lastName, LocalDate dateOfBirth, String spec, double avg) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -69,7 +77,6 @@ public class Student {
 		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
 				+ dateOfBirth + ", spec=" + spec + ", avg=" + avg + "]";
 	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -77,14 +84,12 @@ public class Student {
 		long temp;
 		temp = Double.doubleToLongBits(avg);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((dateOfBirth == null) ? 0 : dateOfBirth.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((spec == null) ? 0 : spec.hashCode());
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -95,11 +100,6 @@ public class Student {
 			return false;
 		Student other = (Student) obj;
 		if (Double.doubleToLongBits(avg) != Double.doubleToLongBits(other.avg))
-			return false;
-		if (dateOfBirth == null) {
-			if (other.dateOfBirth != null)
-				return false;
-		} else if (!dateOfBirth.equals(other.dateOfBirth))
 			return false;
 		if (firstName == null) {
 			if (other.firstName != null)
@@ -120,7 +120,5 @@ public class Student {
 			return false;
 		return true;
 	}
-
-
-
+	
 }

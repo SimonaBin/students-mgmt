@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,9 +27,23 @@ public class StudentController {
         return studentService.geStudentsList();
 	}
 	
-	@RequestMapping(value = "/loadStudents", method = RequestMethod.POST)
+	@RequestMapping(value = "/loadStudents", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<Student> loadStudentsIntoImputFile(@RequestBody(required = true) List<Student> studentsList) {
-		System.out.println("/loadStudents");
         return studentService.loadStudentsIntoFile(studentsList);
+	}
+	
+	@RequestMapping(value = "/students/{month}", method = RequestMethod.GET)
+    public List<Student> getStudentsByMonth(@PathVariable int month, HttpServletRequest request) {
+        return studentService.geStudentsListFilteredByMonth(month);
+	}
+	
+	@RequestMapping(value = "/student/{id}", method = RequestMethod.DELETE)
+    public List<Student> deleteStudentById(@PathVariable int id, HttpServletRequest request) {
+        return studentService.removeStudent(id);
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<Student> updateFirstnameForStudentWithId(@PathVariable int id, @RequestBody(required = true) String firstName) {
+        return studentService.updateStudent(id, firstName);
 	}
 }

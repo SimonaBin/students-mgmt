@@ -23,13 +23,13 @@ public class StudentUtil {
 		return personIter.readAll();
 	}
 
-	public void writeData(String fileName, List<Student> students) throws Exception {
+	public void writeDataToCSV(String fileName, List<Student> students) throws Exception {
 		  CsvMapper mapper = new CsvMapper();
 		  CsvSchema schema = CsvSchema.builder().addColumn("id").addColumn("firstName").addColumn("lastName").addColumn("dateOfBirth").addColumn("spec").addColumn("avg").build();
 		  ObjectWriter writer = mapper.writerFor(Student.class).with(schema);
 			ClassLoader classLoader = getClass().getClassLoader();
 			File file = new File(classLoader.getResource(fileName).getFile());
 
-		  writer.writeValues(file).writeAll(students);
+		  writer.writeValues(file).writeAll(students).close();
 	}
 }

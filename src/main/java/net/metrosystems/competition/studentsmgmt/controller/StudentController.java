@@ -1,49 +1,49 @@
 package net.metrosystems.competition.studentsmgmt.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import net.metrosystems.competition.studentsmgmt.dto.Student;
 import net.metrosystems.competition.studentsmgmt.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 
 @RestController
 public class StudentController {
 
-	@Autowired 
-	private StudentService studentService;
-	
-	@RequestMapping(value = "/allStudents", method = RequestMethod.GET)
+    @Autowired
+    private StudentService studentService;
+
+    @GetMapping("/allStudents")
     public List<Student> viewAllStudents(HttpServletRequest request) {
         return studentService.geStudentsList();
-	}
-	
-	@RequestMapping(value = "/loadStudents", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<Student> loadStudentsIntoImputFile(@RequestBody(required = true) List<Student> studentsList) {
+    }
+
+    @PostMapping(value = "/loadStudents", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<Student> loadStudentsIntoInputFile(@RequestBody(required = true) List<Student> studentsList) {
         return studentService.loadStudentsIntoFile(studentsList);
-	}
-	
-	@RequestMapping(value = "/students/{month}", method = RequestMethod.GET)
+    }
+
+    @GetMapping("/students/{month}")
     public List<Student> getStudentsByMonth(@PathVariable int month, HttpServletRequest request) {
         return studentService.geStudentsListFilteredByMonth(month);
-	}
-	
-	@RequestMapping(value = "/student/{id}", method = RequestMethod.DELETE)
+    }
+
+    @DeleteMapping("/student/{id}")
     public List<Student> deleteStudentById(@PathVariable int id, HttpServletRequest request) {
         return studentService.removeStudent(id);
-	}
-	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<Student> updateFirstnameForStudentWithId(@PathVariable int id, @RequestBody(required = true) String firstName) {
+    }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public List<Student> updateFirstNameForStudentWithId(@PathVariable int id, @RequestBody String firstName) {
         return studentService.updateStudent(id, firstName);
-	}
+    }
 }

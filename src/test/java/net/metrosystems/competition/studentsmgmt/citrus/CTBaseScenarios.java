@@ -1,16 +1,11 @@
 package net.metrosystems.competition.studentsmgmt.citrus;
 
 import com.consol.citrus.annotations.CitrusEndpoint;
-import com.consol.citrus.dsl.junit.jupiter.CitrusExtension;
 import com.consol.citrus.dsl.runner.TestRunner;
 import com.consol.citrus.http.client.HttpClient;
 import com.consol.citrus.message.MessageType;
-import com.consol.citrus.util.FileUtils;
 import net.metrosystems.competition.studentsmgmt.StudentsMgmtApplication;
 import org.apache.http.entity.ContentType;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
@@ -21,7 +16,6 @@ import org.springframework.http.MediaType;
         classes = {
                 StudentsMgmtApplication.class
         })
-@ExtendWith({CitrusExtension.class})
 public class CTBaseScenarios {
 
     @CitrusEndpoint

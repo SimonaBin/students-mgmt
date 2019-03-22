@@ -78,13 +78,6 @@
 			<version>1.4.0</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- Test scoped dependencies -->
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>${testng.version}</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>

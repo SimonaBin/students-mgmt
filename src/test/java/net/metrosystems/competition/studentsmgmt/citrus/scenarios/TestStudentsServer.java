@@ -8,8 +8,6 @@ import net.metrosystems.competition.studentsmgmt.citrus.CTBaseScenarios;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith({CitrusExtension.class})
@@ -28,9 +26,6 @@ public class TestStudentsServer extends CTBaseScenarios {
     public static final String PATH_INPUT_VASILE_AND_JEU_STUDENTS = "test_data/expected-vasile-and-jeu-students.json";
     public static final String PATH_INPUT_VASILE_JEU_AND_NELU_STUDENTS = "test_data/expected-vasile-jeu-and-nelu-students.json";
 
-
-    @Autowired
-    private ApplicationContext context;
     /**
      * delete dummy data
      * method type: post     - path: /loadStudents

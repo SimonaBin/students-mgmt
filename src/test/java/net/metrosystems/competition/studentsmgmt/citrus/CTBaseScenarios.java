@@ -6,6 +6,8 @@ import com.consol.citrus.http.client.HttpClient;
 import com.consol.citrus.message.MessageType;
 import net.metrosystems.competition.studentsmgmt.StudentsMgmtApplication;
 import org.apache.http.entity.ContentType;
+import org.junit.jupiter.api.BeforeAll;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
@@ -21,7 +23,26 @@ public class CTBaseScenarios {
     @CitrusEndpoint
     HttpClient studentHttpClient;
 
-    protected void testGetEndPointForStudentServer(TestRunner runner, String clientPath, String resultPath) {
+    @BeforeAll
+    private void startApp(){
+        SpringApplication.run(StudentsMgmtApplication.class, "");
+    }
+
+    protected void deleteContentFromCSV(TestRunner runner, String clientPath){
+        runner.http(action -> action
+                .client(studentHttpClient)
+                .send()
+                .delete(clientPath)
+                .accept(MediaType.APPLICATION_JSON_VALUE));
+
+        runner.http(action -> action
+                .client(studentHttpClient)
+                .receive()
+                .response(HttpStatus.OK)
+                .messageType(MessageType.PLAINTEXT));
+    }
+
+    protected void callEndpointGetAllStudents(TestRunner runner, String clientPath, String resultPath) {
         runner.http(action -> action
                 .client(studentHttpClient)
                 .send()
@@ -39,7 +60,7 @@ public class CTBaseScenarios {
         //runner.echo("${response}");
     }
 
-    protected void testPostEndPointForStudentServer(TestRunner runner, String clientPath, String requestBody, String resultPath) {
+    protected void callEndpointLoadStudents(TestRunner runner, String clientPath, String requestBody, String resultPath) {
         runner.http(action -> action
                 .client(studentHttpClient)
                 .send()
@@ -47,8 +68,61 @@ public class CTBaseScenarios {
                 .messageType(MessageType.JSON)
                 .contentType(ContentType.APPLICATION_JSON.getMimeType())
                 .payload(new ClassPathResource(requestBody))
-               // .payload("[ { \"id\": 678, \"firstName\": \"Vasile\", \"lastName\": \"Mihai\", \"dateOfBirth\": \"15/11/1989\", \"spec\": \"chineza\", \"avg\": 5.73 } ]")
                 );
+
+        runner.http(action -> action
+                .client(studentHttpClient)
+                .receive()
+                .response(HttpStatus.OK)
+                .messageType(MessageType.JSON)
+                .extractFromPayload("$.[*]", "response")
+                .payload(new ClassPathResource(resultPath)));
+        runner.echo("${response}");
+    }
+
+    protected void callUpdateStudentName(TestRunner runner, String clientPath, String idStudent, String studentName, String resultPath){
+        runner.http(action -> action
+                .client(studentHttpClient)
+                .send()
+                .put(String.format(clientPath, idStudent))
+                .messageType(MessageType.PLAINTEXT)
+                .payload(studentName)
+        );
+
+        runner.http(action -> action
+                .client(studentHttpClient)
+                .receive()
+                .response(HttpStatus.OK)
+                .messageType(MessageType.JSON)
+                .extractFromPayload("$.[*]", "response")
+                .payload(new ClassPathResource(resultPath)));
+        runner.echo("${response}");
+    }
+
+    protected void callDeleteStudent(TestRunner runner, String clientPath, String idStudent, String resultPath){
+        runner.http(action -> action
+                .client(studentHttpClient)
+                .send()
+                .delete(String.format(clientPath, idStudent))
+        );
+
+        runner.http(action -> action
+                .client(studentHttpClient)
+                .receive()
+                .response(HttpStatus.OK)
+                .messageType(MessageType.JSON)
+                .extractFromPayload("$.[*]", "response")
+                .payload(new ClassPathResource(resultPath)));
+        runner.echo("${response}");
+    }
+
+
+    protected void callGetAllStudentsWhichAreBornInMonth(TestRunner runner, String clientPath, String month, String resultPath){
+        runner.http(action -> action
+                .client(studentHttpClient)
+                .send()
+                .get(String.format(clientPath, month))
+        );
 
         runner.http(action -> action
                 .client(studentHttpClient)

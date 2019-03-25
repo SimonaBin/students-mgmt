@@ -1,15 +1,14 @@
 package net.metrosystems.competition.studentsmgmt.service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import net.metrosystems.competition.studentsmgmt.dto.Student;
+import net.metrosystems.competition.studentsmgmt.util.StudentUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import net.metrosystems.competition.studentsmgmt.dto.Student;
-import net.metrosystems.competition.studentsmgmt.util.StudentUtil;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -37,7 +36,7 @@ public class StudentService {
         return students;
     }
 
-    public List<Student> geStudentsListFilteredByMonth(int month) {
+    public List<Student> getStudentsListFilteredByMonth(int month) {
         List<Student> allStudents = geStudentsList();
         LOGGER.info("Get all students born in the given month: {}", month);
         return allStudents.stream().filter(s -> s.getDateOfBirth().getMonth().getValue() == month).collect(Collectors.toList());
@@ -65,6 +64,11 @@ public class StudentService {
             }
         });
         return loadStudentsIntoFile(allStudents);
+    }
+
+    public boolean deleteAllStudents(){
+        StudentUtil su = new StudentUtil();
+        return su.deleteContentFromCSVFile(FILE_NAME);
     }
 
 }

@@ -1,20 +1,13 @@
 package net.metrosystems.competition.studentsmgmt.controller;
 
-import net.metrosystems.competition.studentsmgmt.dto.Student;
-import net.metrosystems.competition.studentsmgmt.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import net.metrosystems.competition.studentsmgmt.dto.Student;
+import net.metrosystems.competition.studentsmgmt.service.StudentService;
 
 @RestController
 public class StudentController {
@@ -23,7 +16,7 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping("/allStudents")
-    public List<Student> viewAllStudents(HttpServletRequest request) {
+    public List<Student> viewAllStudents() {
         return studentService.geStudentsList();
     }
 
@@ -33,16 +26,16 @@ public class StudentController {
     }
 
     @GetMapping("/students/{month}")
-    public List<Student> getStudentsByMonth(@PathVariable int month, HttpServletRequest request) {
+    public List<Student> getStudentsByMonth(@PathVariable int month) {
         return studentService.geStudentsListFilteredByMonth(month);
     }
 
     @DeleteMapping("/student/{id}")
-    public List<Student> deleteStudentById(@PathVariable int id, HttpServletRequest request) {
+    public List<Student> deleteStudentById(@PathVariable int id) {
         return studentService.removeStudent(id);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.TEXT_PLAIN_VALUE)
     public List<Student> updateFirstNameForStudentWithId(@PathVariable int id, @RequestBody String firstName) {
         return studentService.updateStudent(id, firstName);
     }

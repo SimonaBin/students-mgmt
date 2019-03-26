@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class StudentService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
-    private static final String FILE_NAME = "resource-data.csv";
+    public static final String FILE_NAME = "resource-data.csv";
 
     public List<Student> geStudentsList() {
         try {

@@ -24,7 +24,7 @@ public class CTBaseScenarios {
     HttpClient studentHttpClient;
 
     @BeforeAll
-    private void startApp(){
+    private void startApp() throws Exception {
         SpringApplication.run(StudentsMgmtApplication.class, "");
     }
 

@@ -17,26 +17,29 @@ import java.util.List;
 @RestController
 public class StudentController {
 
-    //method type: get      - path: /allStudents            - return: List<Student>
-    //method type: post     - path: /loadStudents           - return: List<Student>
-    //method type: put      - path: /update/{id}            - return: List<Student>
-    //method type: get      - path: /students/{month}
-    //method type: post     - path: /loadStudents           - return: List<Student>
-    //method type: put      - path: /update/{id}            - return: List<Student>
-    //method type: delete   - path: /student/{id}           - return: List<Student>
-    //method type: delete   - path: /delete-all-students    - return: boolean
+    //method type: post             - path: /load-students           - return: List<Student> - DONE
+    //method type: delete           - path: /delete-all-students    - return: boolean - DONE
+    //TODO: method type: get         - path: /all-students            - return: List<Student>  - returneaza in response body toti studentii din fisier
+    //TODO: method type: get         - path: /students/{month}       - return: List<Student>  - returneaza in response body toti studentii nascuti in luna {month}
+    //TODO: method type: put         - path: /update/{id}            - return: List<Student> - updateaza numele studentul cu {id}, folosind valoarea preluata din request body
+    //TODO: method type: delete      - path: /student/{id}           - return: List<Student> - sterge studentul din fisier cu {id}, si returneaza in responde body toate informatiile despre studentul sters
 
     @Autowired
     private StudentService studentService;
 
-    @GetMapping("/allStudents")
-    public List<Student> viewAllStudents() {
-        return studentService.geStudentsList();
-    }
-
-    @PostMapping(value = "/loadStudents", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/load-students", consumes = MediaType.APPLICATION_JSON_VALUE)
     public List<Student> loadStudentsIntoInputFile(@RequestBody List<Student> studentsList) {
         return studentService.loadStudentsIntoFile(studentsList);
+    }
+
+    @DeleteMapping("/delete-all-students")
+    public boolean deleteAll(){
+        return studentService.deleteAllStudents();
+    }
+
+    @GetMapping("/all-students")
+    public List<Student> viewAllStudents() {
+        return studentService.geStudentsList();
     }
 
     @GetMapping("/students/{month}")
@@ -44,7 +47,7 @@ public class StudentController {
         return studentService.getStudentsListFilteredByMonth(month);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/student/{id}")
     public List<Student> deleteStudentById(@PathVariable int id) {
         return studentService.removeStudent(id);
     }
@@ -53,11 +56,5 @@ public class StudentController {
     public List<Student> updateFirstNameForStudentWithId(@PathVariable int id, @RequestBody String firstName) {
         return studentService.updateStudent(id, firstName);
     }
-
-    @DeleteMapping("/delete-all-students")
-    public boolean deleteAll(){
-        return studentService.deleteAllStudents();    }
-
-
 
 }

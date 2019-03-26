@@ -12,12 +12,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith({CitrusExtension.class})
 public class TestStudentsServer extends CTBaseScenarios {
-    public static final String GET_PATH_ALL_STUDENTS = "/allStudents";
-    public static final String PUT_PATH_LOAD_STUDENTS = "/loadStudents";
+
+    //method type: post             - path: /load-students           - return: List<Student> - DONE
+    //method type: delete           - path: /delete-all-students    - return: boolean - DONE
+    //TODO: method type: get         - path: /all-students            - return: List<Student>  - returneaza in response body toti studentii din fisier
+    //TODO: method type: get         - path: /students/{month}       - return: List<Student>  - returneaza in response body toti studentii nascuti in luna {month}
+    //TODO: method type: put         - path: /update/{id}            - return: List<Student> - updateaza numele studentul cu {id}, folosind valoarea preluata din request body
+    //TODO: method type: delete      - path: /student/{id}           - return: List<Student> - sterge studentul din fisier cu {id}, si returneaza in responde body toate informatiile despre studentul sters
+
+
+    public static final String PUT_PATH_LOAD_STUDENTS = "/load-students";
     public static final String DELETE_PATH_STUDENTS = "/delete-all-students";
-    public static final String PUT_UPDATE_STUDENT = "/update/%s";
-    public static final String DELETE_STUDENT = "/delete/%s";
+    public static final String GET_PATH_ALL_STUDENTS = "/all-students";
     public static final String GET_STUDENT_MONTH = "/students/%s";
+    public static final String PUT_UPDATE_STUDENT = "/update/%s";
+    public static final String DELETE_STUDENT = "/student/%s";
 
     public static final String PATH_EXPECTED_VASILE_STUDENT_678 = "test_data/expected-vasile-student.json";
     public static final String PATH_INPUT_VASILE_STUDENT = "test_data/expected-vasile-student.json";

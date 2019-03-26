@@ -1,0 +1,3 @@
+[ { "id": 678, "firstName": "Vasile", "lastName": "Mihai", "dateOfBirth": "23/11/1989", "spec": "chineza", "avg": 5.73 },
+  { "id": 555, "firstName": "JEU", "lastName": "Mihai", "dateOfBirth": "11/11/1989", "spec": "rromaneles", "avg": 5.73 },
+  { "id": 333, "firstName": "NELU", "lastName": "Mihai", "dateOfBirth": "27/10/1989", "spec": "romana", "avg": 5.73 }]
